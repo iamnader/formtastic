@@ -758,7 +758,7 @@ module Formtastic #:nodoc:
         html_options.delete(:multiple) if html_options[:multiple].nil?
 
         reflection = self.reflection_for(method)
-        if reflection && [ :has_many, :has_and_belongs_to_many ].include?(reflection.macro)
+        if reflection && [:references_many, :has_many, :has_and_belongs_to_many ].include?(reflection.macro)
           options[:include_blank]   = false
           html_options[:multiple] = true if html_options[:multiple].nil?
           html_options[:size]     ||= 5
@@ -1528,7 +1528,7 @@ module Formtastic #:nodoc:
       #
       def generate_association_input_name(method) #:nodoc:
         if reflection = self.reflection_for(method)
-          if [:has_and_belongs_to_many, :has_many].include?(reflection.macro)
+          if [:references_many, :has_and_belongs_to_many, :has_many].include?(reflection.macro)
             "#{method.to_s.singularize}_ids"
           else
             reflection.options[:foreign_key] || "#{method}_id"
